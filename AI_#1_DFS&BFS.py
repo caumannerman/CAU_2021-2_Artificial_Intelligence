@@ -49,7 +49,7 @@ moves = 0
 search_num = 0
 while len(open_queue) != 0:
 
-    current = open_queue.pop(0) #OPEN 리스트의 앞에서 삭제
+    current = open_queue.pop() #OPEN 리스트의 앞에서 삭제
     search_num += 1
     print(search_num)
     print(current)
