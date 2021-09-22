@@ -19,9 +19,9 @@ class State:
             result.append(self.get_new_board(i, i-3, moves))
         if not i in [0,3,6]:  # LEFT
             result.append(self.get_new_board(i, i-1, moves))
-        if not i in [2,5,8]:  # DOWN
+        if not i in [2,5,8]:  # RIGHT
             result.append(self.get_new_board(i, i+1, moves))
-        if not i in [6,7,8]:  # RIGHT
+        if not i in [6,7,8]:  # DOWN
             result.append(self.get_new_board(i, i+3, moves))
         return result
 
@@ -31,6 +31,8 @@ class State:
             str(self.board[3:6]) + "\n"+\
             str(self.board[6:]) + "\n" + \
             "------------------"
+    def __eq__(self, other):
+        return self.board == other.board
 
 # 초기상태
 puzzle = [1,2,3,0,4,6,7,5,8]
@@ -44,11 +46,14 @@ open_queue.append(State(puzzle, goal))
 
 closed_queue = []
 moves = 0
-
+search_num = 0
 while len(open_queue) != 0:
 
     current = open_queue.pop(0) #OPEN 리스트의 앞에서 삭제
+    search_num += 1
+    print(search_num)
     print(current)
+
     if current.board == goal:
         print("탐색 성공")
         break
