@@ -21,9 +21,9 @@ class State:
             result.append(self.get_new_board(i, i-3, moves))
         if not i in [0,3,6]: # left
             result.append(self.get_new_board(i, i-1, moves))
-        if not i in [2,5,8]: # DOWN
+        if not i in [2,5,8]: # RIGHT
             result.append(self.get_new_board(i, i+1, moves))
-        if not i in [6,7,8]: #right
+        if not i in [6,7,8]: #DOWN
             result.append(self.get_new_board(i, i+3, moves))
         return result
 
@@ -53,9 +53,11 @@ class State:
         str(self.board[3:6]) +"\n" +\
         str(self.board[6:]) +"\n" + \
         "------------------"
+    def __eq__(self,other):
+        return self.board == other.board
 
 #초기 상태
-puzzle = [1,2,3,0,4,6,7,5,8]
+puzzle = [1,0,3,2,4,6,7,5,8]
 
 #목표 상태
 goal = [1,2,3,4,5,6,7,8,0]

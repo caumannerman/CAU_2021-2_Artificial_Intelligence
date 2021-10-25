@@ -9,6 +9,7 @@ game_board = [' ', ' ', ' ',
               ' ', ' ', ' ',
               ' ', ' ', ' ']
 
+dynamic = [[] for _ in range(4)]
 
 # 비어있는 칸을 찾아서 리스트로 반환
 def empty_cells(board):
@@ -34,10 +35,10 @@ def draw(board):
     for i, cell in enumerate(board):
         if i%3 == 0:
             print('\n----------------')
-        print('/', cell, '/', end='')
+        print('|', cell, '|', end='')
     print('\n----------------')
 
-# 보드의 상태를 평가한다.
+# 보드의 상태를 평가한다. ==> 상태함수인데, 이 부분을 좀더 구체화 하고, score도 구체화해야만이, 얕은 depth에서도 효율적인 인공지능을 구현할 수 있다.
 def evaluate(board):
     if check_win(board, 'X'):
         score = 1
@@ -84,6 +85,9 @@ def minimax(board, depth, maxPlayer):
             #경기자를 교체하여 minimax()를 순환호출
             x, score = minimax(board, depth-1, False)
             board[p] = ' ' # 보드는 원상태로
+            # 선택의 과정을 보기위해 추기한 코드
+            if depth == 7 or depth == 8 or depth == 9:
+                dynamic[10-depth].append((x,score))
             if score > value:
                 value = score # 최댓값 취함
                 pos = p # 최댓값의 위치를 기억
@@ -96,9 +100,15 @@ def minimax(board, depth, maxPlayer):
             # 경기자를 교체하여 minimax()를 순환호출한다.
             x, score = minimax(board, depth-1, True)
             board[p] = ' ' #보드는 원상태로 돌린다.
+            # 선택의 과정을 보기위해 추기한 코드
+            if depth == 7 or depth == 8 or depth == 9:
+                dynamic[10-depth].append((x,score))
             if score < value:
                 value = score # 최소값을 취함
                 pos = p # 최소값의 위치를 기억
+    # 여기도 추가한 부분
+    if depth == 9:
+        dynamic[0].append((pos, value))
     return pos, value # 위치와 값을 반환한다.
 
 player='X'
@@ -108,7 +118,8 @@ while True:
     if len(empty_cells(game_board)) == 0 or game_over(game_board):
         break
     i, v = minimax(game_board, 9, player=='X')
-    move(i, player)
+    break
+    #move(i, player)
     if player=='X':
         player='O'
     else:
@@ -120,3 +131,5 @@ elif check_win(game_board, 'O'):
     print('O 승리!')
 else:
     print('비겼습니다!')
+for i in dynamic:
+    print(i)
