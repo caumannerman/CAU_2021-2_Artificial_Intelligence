@@ -17,8 +17,13 @@ model.fit(X_train, y_train)
 #테스트 데이터로 예측해보자
 y_pred = model.predict(X_test)
 
+print(X_train)
+print(X_test)
+print(y_train)
+print(y_test)
 #실제 데이터와 예측 데이터를 비교해보자.
-plt.plot(y_test, y_pred, '.')
+plt.plot(X_test,y_test, '.', color='blue')
+plt.plot(X_test*10000,y_pred, '.', color='red')
 
 #직선을 그리기 위하여 완벽한 선형 데이터를 생성한다.
 x = np.linspace(0, 330, 100)

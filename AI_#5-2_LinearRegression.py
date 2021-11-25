@@ -3,14 +3,19 @@ from sklearn import linear_model
 
 reg = linear_model.LinearRegression()
 
-X = [[174], [152], [138], [128], [186]]
-y = [71, 55, 46, 38, 88]
+X = [[174], [152], [138], [128], [186],[165],[170],[180],[125],[185]]
+y = [71, 55, 46, 38, 88,57,80,72,30,88]
 reg.fit(X, y)   #학습
 
-print(reg.predict([[165]]))
+#predict할 x값 입력
+test_x = 135
+test_y = reg.predict([[test_x]])
+print(test_y)
 
 #학습 데이터와 y값을 산포도로 그린다.
 plt.scatter(X, y, color='black')
+# test_x와 그에 따른 output 쌍을 빨간색으로 plot
+plt.scatter([[test_x]],[test_y], color='red' )
 
 #학습 데이터를 입력으로 하여 예측값을 계산한다.
 y_pred = reg.predict(X)
